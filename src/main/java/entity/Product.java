@@ -34,6 +34,15 @@ public class Product {
         this.company = company;
         this.quantity = quantity;
     }
+    @Override
+    public String toString() {
+        return "{" + '\n' +
+                "    id = " + id + ", \n" +
+                "    name = '" + name + "', \n" +
+                "    company = '" + company + "', \n" +
+                "    quantity = " + quantity + '\n' +
+                "}"+ '\n';
+    }
 
     public String getName() {
         return name;

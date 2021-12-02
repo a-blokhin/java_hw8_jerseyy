@@ -35,7 +35,7 @@ public class ProductDAO implements DAO<Product> {
 
     public @NotNull Product getByCompany(String company) {
         try (var statement = connection.createStatement()) {
-            try (var resultSet = statement.executeQuery("SELECT id, name, company, quantity FROM product WHERE company = " + company)) {
+            try (var resultSet = statement.executeQuery("SELECT id, name, company, quantity FROM product WHERE company = '" + company+"'")) {
                 if (resultSet.next()) {
                     return new Product(resultSet.getInt("id"), resultSet.getString("name"), resultSet.getString("company"), resultSet.getInt("quantity"));
                 }
@@ -63,20 +63,33 @@ public class ProductDAO implements DAO<Product> {
     }
 
     @Override
-    public void save(@NotNull Product entity) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO product (name, company, quantity) VALUES(?,?,?)")) {
-            int fieldIndex = 1;
-            preparedStatement.setString(fieldIndex++, entity.getName());
-            preparedStatement.setString(fieldIndex++, entity.getCompany());
-            preparedStatement.setInt(fieldIndex, entity.getQuantity());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            try {
-                System.out.println(new String(e.getMessage().getBytes(StandardCharsets.UTF_8),"cp1251"));
-            } catch (UnsupportedEncodingException ex) {
-                ex.printStackTrace();
-            }
+    public boolean save(@NotNull Product entity) {
+        try {
+            get(entity.getId());
         }
+        catch(IllegalStateException exc) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(
+                    entity.getId() > 0 ?
+                            "INSERT INTO product (id,name, company, quantity) VALUES(?,?,?,?)" :
+                            "INSERT INTO product (name, company, quantity) VALUES(?,?,?)"
+
+            )) {
+                int fieldIndex = 1;
+                if (entity.getId() > 0) preparedStatement.setInt(fieldIndex++, entity.getId());
+                preparedStatement.setString(fieldIndex++, entity.getName());
+                preparedStatement.setString(fieldIndex++, entity.getCompany());
+                preparedStatement.setInt(fieldIndex, entity.getQuantity());
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                try {
+                    System.out.println(new String(e.getMessage().getBytes(StandardCharsets.UTF_8), "cp1251"));
+                } catch (UnsupportedEncodingException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            return true;
+        }
+        return false;
 
     }
 

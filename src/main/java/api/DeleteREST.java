@@ -15,9 +15,9 @@ import java.sql.SQLException;
 public class DeleteREST {
 
     @POST
-    @Path("/")
+    @Path("/{name}")
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response deleteByName(String name){
+    public Response deleteByName(@PathParam("name") String name) {
         Connection connection = null;
         try {
             connection = Connect.connect();

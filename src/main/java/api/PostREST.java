@@ -4,7 +4,6 @@ import DAO.ProductDAO;
 import commons.Connect;
 import entity.Product;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -17,8 +16,8 @@ import java.sql.SQLException;
 public class PostREST {
     @POST
     @Path("/")
-    @Consumes(MediaType.TEXT_PLAIN)
-    public Response deleteByName(String name, String company, String quantityString){
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteByName(Product product) {
         Connection connection = null;
         try {
             connection = Connect.connect();
@@ -26,13 +25,11 @@ public class PostREST {
             e.printStackTrace();
         }
         ProductDAO productDAO = new ProductDAO(connection);
-        if ((name == null)|(company == null)|(quantityString == null)){
-            return Response.status(Response.Status.BAD_REQUEST).build();
+        if (productDAO.save(product)){
+            return Response.ok().build();
+        }else{
+            return Response.status(Response.Status.NOT_FOUND).entity("Id is already taken").build();
         }
-        int quantity = Integer.parseInt(quantityString);
-        productDAO.save(new Product(name,
-                company,
-                quantity));
-        return Response.ok().build();
+
     }
 }

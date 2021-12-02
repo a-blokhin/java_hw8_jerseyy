@@ -1,5 +1,6 @@
 package server;
 
+import api.DefaultREST;
 import api.DeleteREST;
 import api.GetREST;
 import api.PostREST;
@@ -25,6 +26,7 @@ public final class GuiceListener extends GuiceResteasyBootstrapServletContextLis
         @Override
         protected void configure() {
             bind(JacksonMessageBodyHandler.class).toInstance(new JacksonMessageBodyHandler());
+            bind(DefaultREST.class);
             bind(DeleteREST.class);
             bind(GetREST.class);
             bind(PostREST.class);

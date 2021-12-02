@@ -5,11 +5,29 @@
 </head>
 <body>
     <h1>Описание:</h1>
-    <p><a href="http://127.0.0.1:3466/">http://127.0.0.1:3466/</a> - директория статических файлов<br>
     <p><a href="http://127.0.0.1:3466/example">http://127.0.0.1:3466/example</a> - статический файл с лекции<br>
     <p><a href="http://127.0.0.1:3466/info">http://127.0.0.1:3466/info</a> - статический файл в котором написан этот текст<br>
-    <p><a href="http://127.0.0.1:3466/getProducts">http://127.0.0.1:3466/getProducts</a> - GET запрос, чтобы смотреть все добавленные товары<br>
-    <p><a href="http://127.0.0.1:3466/postProduct">http://127.0.0.1:3466/postProduct</a> - POST запрос, чтобы добавить в хранилище запись с именем товара и его количеством<br>
+    <p><a href="http://127.0.0.1:3466/getProducts">http://127.0.0.1:3466/getProducts</a> - GET запрос, чтобы смотреть все добавленные товары<br><br>
+	GET http://127.0.0.1:3466/getProducts<br>
+	Authorization: Basic manager manager<br>
+	<p><a href="http://127.0.0.1:3466/getProducts">http://127.0.0.1:3466/getProducts/{company}</a> - GET запрос, чтобы смотреть товары с определённым именем<br><br>
+    	GET <a href="http://127.0.0.1:3466/getProducts/cde">
+    	http://127.0.0.1:3466/getProducts/cde</a><br>
+    	Authorization: Basic manager manager<br>
+    <p><a href="http://127.0.0.1:3466/postProduct">http://127.0.0.1:3466/postProduct</a> - POST запрос, чтобы добавить в хранилище запись с именем товара и его количеством (при id<1 id генерируется)<br><br>
+	POST http://localhost:3466/postProduct<br>
+       Authorization: Basic manager manager<br>
+       Content-Type: application/json<br>
+       <br>
+       {<br>
+    <pre>  "id": -1,</pre>
+    <pre>  "name": "abc",</pre>
+    <pre>  "company": "cde",</pre>
+    <pre>  "quantity": 1</pre>
+       }<br>
+    <p><a href="http://127.0.0.1:3466/deleteProduct/">http://127.0.0.1:3466/deleteProduct/{name}</a> - POST запрос, чтобы удалить запись с заданным именем товара<br><br>
+	http://localhost:3466/deleteProduct/abc<br>
+	Authorization: Basic manager manager<br>
     <p>Пользователи:<br>
     <p>guest: guest, guest<br>
     <p>manager: manager, manager<br>

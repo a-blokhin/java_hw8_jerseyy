@@ -27,7 +27,7 @@ public class GetREST {
             e.printStackTrace();
         }
         ProductDAO productDAO = new ProductDAO(connection);
-        return Response.ok(productDAO.all())
+        return Response.ok(productDAO.all().toString())
                 .build();
     }
 
@@ -42,6 +42,6 @@ public class GetREST {
             e.printStackTrace();
         }
         ProductDAO productDAO = new ProductDAO(connection);
-        return Response.ok(productDAO.getByCompany(company)).build();
+        return Response.ok(productDAO.getByCompany(company).toString()).build();
     }
 }

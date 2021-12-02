@@ -10,7 +10,7 @@ public interface DAO<T> {
 
     @NotNull List<T> all();
 
-    void save(@NotNull T entity);
+    boolean save(@NotNull T entity);
 
     void update(@NotNull T entity);
 
